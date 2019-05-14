@@ -15,7 +15,7 @@ class CustomersController < ApplicationController
   end
 
   def zomg
-    render status: :not_found, json: { errors: "It works " }
+    render status: :not_found, json: { message: "It works " }
     # there could be more than one error
   end
 end
