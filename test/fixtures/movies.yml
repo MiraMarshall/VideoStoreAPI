@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  overview: MyString
-  release_date: 
+  title: Mulan
+  overview: A girl saves all of China
+  release_date: 1998-06-05
   inventory: 1
 
 two:
-  title: MyString
-  overview: MyString
-  release_date: 
-  inventory: 1
+  title: A Walk to Remember 
+  overview: Right of passage movie. 
+  release_date: 2002-01-25
+  inventory: 2
