@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  overview: MyString
+  title: Amelie 
+  overview: French gal 
   release_date: 
   inventory: 1
 
