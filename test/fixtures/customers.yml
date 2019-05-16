@@ -9,3 +9,12 @@ chewy:
   postal_code: 98026
   phone: 1234567
 
+
+beyonce:
+  name: Beyonce
+  registered_at: 2019-05-15
+  address: 111 The Queen 
+  city: Paris
+  state: WA
+  postal_code: 98034
+  phone: 1234567
