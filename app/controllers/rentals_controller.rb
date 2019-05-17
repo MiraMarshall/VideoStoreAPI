@@ -1,5 +1,4 @@
 require "date"
-require "pry"
 
 class RentalsController < ApplicationController
   def check_out
@@ -7,10 +6,8 @@ class RentalsController < ApplicationController
 
     rental.check_out = DateTime.now.to_date
     rental.due_date = rental.check_out + 7
-    rental.save
-    # binding.pry
 
-    if rental
+    if rental.save
       render status: :ok, json: { id: rental.id }
     else
       render status: :bad_request, json: { ok: false, errors: rental.errors }
@@ -21,7 +18,6 @@ class RentalsController < ApplicationController
     customer = Customer.find_by(id: params[:customer_id])
     movie = Movie.find_by(id: params[:movie_id])
     rental = Rental.find_by(customer_id: customer.id, movie_id: movie.id)
-    #binding.pry
 
     if rental
       movie.update(available_inventory: movie.available_inventory += 1)
