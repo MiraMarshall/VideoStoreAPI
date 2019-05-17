@@ -9,15 +9,10 @@ class CustomersController < ApplicationController
     if customer
       render status: :ok, json: customer.as_json(only: [:name, :registered_at, :adress, :city, :state, :postal_code, :phone]), status: :ok
     else
-      render status: :not_found, json: {errors: customer.errors.messages}
+      render status: :not_found, json: { errors: customer.errors.messages }
       # there could be more than one error
     end
   end
-
-  # def zomg
-  #   render status: :not_found, json: { message: "It works " }
-  #   # there could be more than one error
-  # end
 
   private
 
