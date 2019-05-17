@@ -19,4 +19,13 @@ describe RentalsController do
       must_respond_with :success
     end
   end
+
+  it "return bad request if given invalid data" do
+    rental_data[:movie_id] = nil
+    expect {
+      post rentals_check_out_path, params: rental_data
+    }.wont_change "Rental.count"
+
+    must_respond_with :bad_request
+  end
 end

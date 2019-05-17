@@ -6,9 +6,8 @@ class RentalsController < ApplicationController
 
     rental.check_out = DateTime.now.to_date
     rental.due_date = rental.check_out + 7
-    rental.save
 
-    if rental
+    if rental.save
       render status: :ok, json: { id: rental.id }
     else
       render status: :bad_request, json: { ok: false, errors: rental.errors }
