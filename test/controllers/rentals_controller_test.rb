@@ -28,4 +28,7 @@ describe RentalsController do
 
     must_respond_with :bad_request
   end
+
+  it "returns json" do 
+    
 end
