@@ -24,7 +24,8 @@ class RentalsController < ApplicationController
       # movie.inventory += 1
       # customer.movies_checked_out -= 1
       # rental.check_in = Date.today
-      render json: { status: "Success", rental: rental }, status: :ok
+
+      render json: { id: rental.id }, status: :ok
     else
       render status: :not_found, json: { ok: false, mesages: "Movie not found" }
     end
