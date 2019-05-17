@@ -24,16 +24,16 @@ class RentalsController < ApplicationController
   end
 
   def check_in
-    rental = Rental.where(["movie_id = ? and customer_id = ? and check_in = ?", params[:rental][:movie_id], params[:rental][:customer_id]]).first
-    customer = Customer.find_by(id: params[:customer_id])
-    movie = Movie.find_by(id: params[:movie_id])
+    rental = Rental.where(["movie_id = ? and customer_id = ?", params[:rental][:movie_id], params[:rental][:customer_id]]).first
+    customer = Customer.find_by(id: params[:rental][:customer_id])
+    movie = Movie.find_by(id: params[:rental][:movie_id])
 
-    rental.save
-
-    if rental
-      movie.update(available_inventory: movie.available_inventory += 1)
-      customer.movies_checked_out -= 1
-      rental.check_in = Date.today
+    rental.check_in = Date.today
+    if rental.save
+      customer.movies_checked_out_count -= 1
+      customer.save
+      movie.available_inventory += 1
+      movie.save
 
       render json: { id: rental.id }, status: :ok
     else
@@ -44,6 +44,6 @@ class RentalsController < ApplicationController
   private
 
   def rental_params
-    params.permit(:movie_id, :customer_id)
+    params.require(:rental).permit(:movie_id, :customer_id)
   end
 end

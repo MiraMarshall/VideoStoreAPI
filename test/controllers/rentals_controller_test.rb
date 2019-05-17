@@ -4,10 +4,12 @@ require "test_helper"
 describe RentalsController do
   let(:rental_data) {
     {
-      movie_id: movies(:one).id,
-      customer_id: customers(:chewy).id,
-      checkout_date: Date.today,
-      due_date: Date.today + 7,
+      rental: {
+        movie_id: movies(:one).id,
+        customer_id: customers(:chewy).id,
+        checkout_date: Date.today,
+        due_date: Date.today + 7,
+      },
     }
   }
   describe "checkout" do
@@ -21,7 +23,7 @@ describe RentalsController do
   end
 
   it "return bad request if given invalid data" do
-    rental_data[:movie_id] = nil
+    rental_data[:rental][:movie_id] = nil
     expect {
       post rentals_check_out_path, params: rental_data
     }.wont_change "Rental.count"
@@ -29,6 +31,6 @@ describe RentalsController do
     must_respond_with :bad_request
   end
 
-  it "returns json" do 
-    
+  it "returns json" do
+  end
 end
