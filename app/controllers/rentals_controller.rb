@@ -3,24 +3,23 @@ require "date"
 class RentalsController < ApplicationController
   def check_out
     rental = Rental.new(rental_params)
+    customer = Customer.find_by(id: rental.customer_id)
     movie = Movie.find_by(id: rental.movie_id)
+
     if movie.available_inventory == 0
       render status: :not_found, json: { ok: false, mesages: "Movie not found" }
     end
 
-    rental.check_out = DateTime.now.to_date
+    rental.check_out = Date.today
     rental.due_date = rental.check_out + 7
 
     if rental.save
-      customer = Customer.find_by(id: rental.customer_id)
-
+      render status: :ok, json: { id: rental.id }
       customer_movie_count = customer.movies_checked_out_count
       customer.update(movies_checked_out_count: customer_movie_count + 1)
 
       movie_inventory = movie.available_inventory
       movie.update(available_inventory: movie_inventory - 1)
-
-      render status: :ok, json: { id: rental.id }
     else
       render status: :bad_request, json: { ok: false, errors: rental.errors }
     end
@@ -29,18 +28,16 @@ class RentalsController < ApplicationController
   def check_in
     rental = Rental.where(["movie_id = ? and customer_id = ?", params[:rental][:movie_id], params[:rental][:customer_id]]).first
     rental.check_in = Date.today
+    customer = Customer.find_by(id: rental.customer_id)
+    movie = Movie.find_by(id: rental.movie_id)
 
     if rental.save
-      customer = Customer.find_by(id: rental.customer_id)
-      movie = Movie.find_by(id: rental.movie_id)
-
+      render json: { id: rental.id }, status: :ok
       customer_movie_count = customer.movies_checked_out_count
       customer.update(movies_checked_out_count: customer_movie_count - 1)
 
       movie_inventory = movie.available_inventory
       movie.update(available_inventory: movie_inventory + 1)
-
-      render json: { id: rental.id }, status: :ok
     else
       render status: :not_found, json: { ok: false, mesages: "Movie not found" }
     end
@@ -49,6 +46,6 @@ class RentalsController < ApplicationController
   private
 
   def rental_params
-    params.require(:rental).permit(:movie_id, :customer_id)
+    params.permit(:movie_id, :customer_id)
   end
 end
